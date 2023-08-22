@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { MediasService } from './medias.service';
 import { CreateMediaDto } from './dto/create-media.dto';
-import { UpdateMediaDto } from './dto/update-media.dto';
 
 @Controller('medias')
 export class MediasController {
@@ -31,7 +30,7 @@ export class MediasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMediaDto: UpdateMediaDto) {
+  update(@Param('id') id: string, @Body() updateMediaDto: CreateMediaDto) {
     return this.mediasService.update(+id, updateMediaDto);
   }
 

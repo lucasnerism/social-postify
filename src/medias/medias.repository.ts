@@ -18,9 +18,11 @@ export class MediasRepository {
     });
   }
 
-  async findMedias() {
+  async findMedias(data?: CreateMediaDto) {
     return this.prisma.media.findMany({
       select: { id: true, title: true, username: true },
+      where: data ? { title: data.title, username: data.username } : {},
+      orderBy: { id: 'asc' },
     });
   }
 
