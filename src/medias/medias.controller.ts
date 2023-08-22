@@ -6,9 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MediasService } from './medias.service';
 import { CreateMediaDto } from './dto/create-media.dto';
+import { Media } from '@prisma/client';
 
 @Controller('medias')
 export class MediasController {
@@ -20,22 +22,27 @@ export class MediasController {
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Omit<Media, 'createdAt' | 'updatedAt'>[]> {
     return this.mediasService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param('id', ParseIntPipe) id: string,
+  ): Promise<Omit<Media, 'createdAt' | 'updatedAt'>> {
     return this.mediasService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMediaDto: CreateMediaDto) {
+  update(
+    @Param('id', ParseIntPipe) id: string,
+    @Body() updateMediaDto: CreateMediaDto,
+  ) {
     return this.mediasService.update(+id, updateMediaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: string) {
     return this.mediasService.remove(+id);
   }
 }
