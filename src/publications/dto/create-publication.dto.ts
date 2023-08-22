@@ -3,10 +3,10 @@ import { IsDate, IsDateString, IsInt, IsPositive } from 'class-validator';
 export class CreatePublicationDto {
   @IsInt()
   @IsPositive()
-  postId: Number;
+  postId: number;
   @IsInt()
   @IsPositive()
-  mediaId: Number;
-  @IsDate()
+  mediaId: number;
+  @IsDateString()
   date: Date;
 }

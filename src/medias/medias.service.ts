@@ -2,13 +2,18 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { MediasRepository } from './medias.repository';
+import { PublicationsService } from '../publications/publications.service';
 
 @Injectable()
 export class MediasService {
-  constructor(private readonly mediasRepository: MediasRepository) {}
+  constructor(
+    private readonly mediasRepository: MediasRepository,
+    private readonly publicationsService: PublicationsService,
+  ) {}
 
   async create(createMediaDto: CreateMediaDto) {
     await this.findMediaWithData(createMediaDto);
@@ -38,6 +43,9 @@ export class MediasService {
 
   async remove(id: number) {
     await this.findOne(id);
-    return await this.mediasRepository.deleteMediaById(id);
+    const publication = await this.publicationsService.findOneByMediaId(id);
+    if (publication) throw new UnauthorizedException();
+    await this.mediasRepository.deleteMediaById(id);
+    return;
   }
 }
