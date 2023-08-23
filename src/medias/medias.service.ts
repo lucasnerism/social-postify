@@ -1,8 +1,8 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { MediasRepository } from './medias.repository';
@@ -44,7 +44,7 @@ export class MediasService {
   async remove(id: number) {
     await this.findOne(id);
     const publication = await this.publicationsService.findOneByMediaId(id);
-    if (publication) throw new UnauthorizedException();
+    if (publication) throw new ForbiddenException();
     await this.mediasRepository.deleteMediaById(id);
     return;
   }

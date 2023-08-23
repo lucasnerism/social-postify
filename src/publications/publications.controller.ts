@@ -27,8 +27,8 @@ export class PublicationsController {
 
   @Get()
   findAll(@Query() query?: FindQuery) {
-    const { published, after } = { ...query };
-    const publishedBool = published.toLowerCase() === 'true';
+    const { published, after } = query;
+    const publishedBool = published ? published === 'true' : undefined;
     return this.publicationsService.findAll(publishedBool, after);
   }
 
