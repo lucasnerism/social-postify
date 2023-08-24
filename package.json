@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "cross-env NODE_ENV=development nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --runInBand --config ./test/jest-e2e.json ",
+    "test:e2e": "cross-env NODE_ENV=test jest --runInBand --config ./test/jest-e2e.json ",
     "test:migration:run": "npm run test:load-envs prisma migrate deploy",
     "test:migration:generate": "npm run test:load-envs prisma migrate dev",
     "test:load-envs": "dotenv -e .env.test",
@@ -38,6 +38,7 @@
     "class-validator": "^0.14.0",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^7.3.0",
+    "dotenv-expand": "^10.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },

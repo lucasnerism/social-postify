@@ -3,13 +3,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   ParseIntPipe,
   Query,
-  ParseBoolPipe,
-  ValidationPipe,
 } from '@nestjs/common';
 import { PublicationsService } from './publications.service';
 import { CreatePublicationDto } from './dto/create-publication.dto';
@@ -37,7 +35,7 @@ export class PublicationsController {
     return this.publicationsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: string,
     @Body() updatePublicationDto: UpdatePublicationDto,

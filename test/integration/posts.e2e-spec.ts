@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { cleanDb } from './helpers';
-import { createPost, generatePost } from './factories/posts.factory';
-import { createMedia, generateMedia } from './factories/medias.factory';
-import { createPublication } from './factories/publications.factory';
+import { AppModule } from '../../src/app.module';
+import { cleanDb } from '../helpers';
+import { createPost, generatePost } from '../factories/posts.factory';
+import { createMedia, generateMedia } from '../factories/medias.factory';
+import { createPublication } from '../factories/publications.factory';
 
 describe('PostsController (e2e)', () => {
   let app: INestApplication;
@@ -74,7 +74,7 @@ describe('PostsController (e2e)', () => {
     const post = await createPost(generatePost());
     const newPost = generatePost();
     const response = await request(app.getHttpServer())
-      .patch(`/posts/${post.id}`)
+      .put(`/posts/${post.id}`)
       .send(newPost);
     expect(response.status).toEqual(HttpStatus.OK);
     expect(response.body).toEqual({ id: post.id, ...newPost });
@@ -83,7 +83,7 @@ describe('PostsController (e2e)', () => {
   it('PUT /posts/:id should return status 404 with id that doesnt exist', async () => {
     const post = generatePost();
     const response = await request(app.getHttpServer())
-      .patch(`/posts/100`)
+      .put(`/posts/100`)
       .send(post);
     expect(response.status).toEqual(HttpStatus.NOT_FOUND);
   });

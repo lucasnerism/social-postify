@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { cleanDb } from './helpers';
-import { createMedia, generateMedia } from './factories/medias.factory';
-import { createPost, generatePost } from './factories/posts.factory';
-import { createPublication } from './factories/publications.factory';
+import { AppModule } from '../../src/app.module';
+import { cleanDb } from '../helpers';
+import { createMedia, generateMedia } from '../factories/medias.factory';
+import { createPost, generatePost } from '../factories/posts.factory';
+import { createPublication } from '../factories/publications.factory';
 
 describe('MediasController (e2e)', () => {
   let app: INestApplication;
@@ -83,7 +83,7 @@ describe('MediasController (e2e)', () => {
     const media = await createMedia(generateMedia());
     const newMedia = generateMedia();
     const response = await request(app.getHttpServer())
-      .patch(`/medias/${media.id}`)
+      .put(`/medias/${media.id}`)
       .send(newMedia);
     expect(response.status).toEqual(HttpStatus.OK);
     expect(response.body).toEqual({ id: media.id, ...newMedia });
@@ -92,7 +92,7 @@ describe('MediasController (e2e)', () => {
   it('PUT /medias/:id should return status 404 with id that doesnt exist', async () => {
     const media = generateMedia();
     const response = await request(app.getHttpServer())
-      .patch(`/medias/100`)
+      .put(`/medias/100`)
       .send(media);
     expect(response.status).toEqual(HttpStatus.NOT_FOUND);
   });
@@ -101,7 +101,7 @@ describe('MediasController (e2e)', () => {
     const media = await createMedia(generateMedia());
     const newMedia = await createMedia(generateMedia());
     const response = await request(app.getHttpServer())
-      .patch(`/medias/${media.id}`)
+      .put(`/medias/${media.id}`)
       .send(newMedia);
     expect(response.status).toEqual(HttpStatus.CONFLICT);
   });

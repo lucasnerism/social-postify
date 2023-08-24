@@ -20,7 +20,7 @@ export class PublicationsRepository {
         orderBy: { id: 'asc' },
         select: { id: true, mediaId: true, postId: true, date: true },
         where: after
-          ? { date: { lt: new Date(), gt: after } }
+          ? { date: { lt: new Date(), gt: new Date(after) } }
           : { date: { lt: new Date() } },
       });
     }
