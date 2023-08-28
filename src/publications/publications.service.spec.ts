@@ -47,7 +47,7 @@ describe('PublicationsService', () => {
     jest.clearAllMocks();
   });
 
-  it('create(publication) should return created publication', async () => {
+  it('create(publication) => should return created publication', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -68,7 +68,7 @@ describe('PublicationsService', () => {
     expect(result).toEqual(publication);
   });
 
-  it('findAll() should return all publications', async () => {
+  it('findAll() => should return all publications', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -83,7 +83,7 @@ describe('PublicationsService', () => {
     expect(result).toEqual([publication]);
   });
 
-  it('findOne(id) should return said publication', async () => {
+  it('findOne(id) => should return said publication', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -98,7 +98,7 @@ describe('PublicationsService', () => {
     expect(result).toEqual(publication);
   });
 
-  it('findOne(id) should return Not Found when post doesnt exists', async () => {
+  it('findOne(id) => should return Not Found when post doesnt exists', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -113,7 +113,7 @@ describe('PublicationsService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('findOneByMediaId(id) should return said publication', async () => {
+  it('findOneByMediaId(id) => should return said publication', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -128,7 +128,7 @@ describe('PublicationsService', () => {
     expect(result).toEqual(publication);
   });
 
-  it('findOneByMediaId(id) should return said publication', async () => {
+  it('findOneByMediaId(id) => should return said publication', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -143,7 +143,7 @@ describe('PublicationsService', () => {
     expect(result).toEqual(publication);
   });
 
-  it('update(id,body) should return Not Found when publication doesnt exists', async () => {
+  it('update(id,body) => should return Not Found when publication doesnt exists', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -162,7 +162,7 @@ describe('PublicationsService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('update(id,body) should return updated publication', async () => {
+  it('update(id,body) => should return updated publication', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -186,7 +186,7 @@ describe('PublicationsService', () => {
     expect(result).toEqual(publication);
   });
 
-  it('update(id,body) should return ForbiddenException if publication was already published', async () => {
+  it('update(id,body) => should return ForbiddenException if publication was already published', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -205,7 +205,7 @@ describe('PublicationsService', () => {
     expect(promise).rejects.toEqual(new ForbiddenException());
   });
 
-  it('remove(id) should delete said publication', async () => {
+  it('remove(id) => should delete said publication', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,
@@ -223,7 +223,7 @@ describe('PublicationsService', () => {
     expect(result).toEqual(undefined);
   });
 
-  it('remove(id) should return NotFoundException when publication doesnt exist', async () => {
+  it('remove(id) => should return NotFoundException when publication doesnt exist', async () => {
     const publication: Omit<Publication, 'createdAt' | 'updatedAt'> = {
       id: 1,
       postId: 1,

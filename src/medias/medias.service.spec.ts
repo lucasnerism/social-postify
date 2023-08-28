@@ -43,7 +43,7 @@ describe('MediasService', () => {
     jest.clearAllMocks();
   });
 
-  it('create(media) should return created media', async () => {
+  it('create(media) => should return created media', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -59,7 +59,7 @@ describe('MediasService', () => {
     expect(result).toEqual(media);
   });
 
-  it('create(media) should return ConflictException when using duplicate media', async () => {
+  it('create(media) => should return ConflictException when using duplicate media', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -74,7 +74,7 @@ describe('MediasService', () => {
     expect(promise).rejects.toEqual(new ConflictException());
   });
 
-  it('findAll() should return all medias', async () => {
+  it('findAll() => should return all medias', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -86,7 +86,7 @@ describe('MediasService', () => {
     expect(result).toEqual([media]);
   });
 
-  it('findOne(id) should return said media', async () => {
+  it('findOne(id) => should return said media', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -98,7 +98,7 @@ describe('MediasService', () => {
     expect(result).toEqual(media);
   });
 
-  it('findOne(id) should return Not Found when media doesnt exists', async () => {
+  it('findOne(id) => should return Not Found when media doesnt exists', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -110,7 +110,7 @@ describe('MediasService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('update(id,body) should return Not Found when media doesnt exists', async () => {
+  it('update(id,body) => should return Not Found when media doesnt exists', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -125,7 +125,7 @@ describe('MediasService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('update(id,body) should return ConflictException when using duplicated body', async () => {
+  it('update(id,body) => should return ConflictException when using duplicated body', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -141,7 +141,7 @@ describe('MediasService', () => {
     expect(promise).rejects.toEqual(new ConflictException());
   });
 
-  it('update(id,body) should return updated media', async () => {
+  it('update(id,body) => should return updated media', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -158,7 +158,7 @@ describe('MediasService', () => {
     expect(result).toEqual(media);
   });
 
-  it('remove(id) should delete said media', async () => {
+  it('remove(id) => should delete said media', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -174,7 +174,7 @@ describe('MediasService', () => {
     expect(result).toEqual(undefined);
   });
 
-  it('remove(id) should return NotFoundException when media doesnt exist', async () => {
+  it('remove(id) => should return NotFoundException when media doesnt exist', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -186,7 +186,7 @@ describe('MediasService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('remove(id) should return ForbiddenException when publication exist', async () => {
+  it('remove(id) => should return ForbiddenException when publication exist', async () => {
     const media: Omit<Media, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),

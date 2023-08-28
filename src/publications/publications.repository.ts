@@ -15,25 +15,21 @@ export class PublicationsRepository {
   }
 
   async findPublications(published?: boolean, after?: Date) {
-    if (published) {
-      return this.prisma.publication.findMany({
-        orderBy: { id: 'asc' },
-        select: { id: true, mediaId: true, postId: true, date: true },
-        where: after
-          ? { date: { lt: new Date(), gt: new Date(after) } }
-          : { date: { lt: new Date() } },
-      });
-    }
-    if (published === false) {
-      return this.prisma.publication.findMany({
-        orderBy: { id: 'asc' },
-        select: { id: true, mediaId: true, postId: true, date: true },
-        where: { date: { gt: new Date() } },
-      });
-    }
+    const currentDate = new Date();
     return this.prisma.publication.findMany({
       orderBy: { id: 'asc' },
       select: { id: true, mediaId: true, postId: true, date: true },
+      where: {
+        date: {
+          lt: published ? currentDate : undefined,
+          gt: published === false ? currentDate : undefined,
+        },
+        AND: {
+          date: {
+            gt: after ? new Date(after) : undefined,
+          },
+        },
+      },
     });
   }
 

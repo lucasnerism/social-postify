@@ -6,26 +6,27 @@ import { cleanDb } from '../helpers';
 import { createMedia, generateMedia } from '../factories/medias.factory';
 import { createPost, generatePost } from '../factories/posts.factory';
 import { createPublication } from '../factories/publications.factory';
+import { PrismaService } from '../../src/database/prisma.service';
 
 describe('MediasController (e2e)', () => {
   let app: INestApplication;
+  let prisma: PrismaService = new PrismaService();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue(prisma)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
-    await cleanDb();
+    await cleanDb(prisma);
   });
 
-  beforeEach(async () => {
-    await cleanDb();
-  });
-
-  it('POST /medias should return status 201 with a valid body', () => {
+  it('POST /medias => should return status 201 with a valid body', () => {
     const media = generateMedia();
     return request(app.getHttpServer())
       .post('/medias')
@@ -33,7 +34,7 @@ describe('MediasController (e2e)', () => {
       .expect(HttpStatus.CREATED);
   });
 
-  it('POST /medias should return status 400 with an invalid body', () => {
+  it('POST /medias => should return status 400 with an invalid body', () => {
     const media = generateMedia();
     return request(app.getHttpServer())
       .post('/medias')
@@ -41,32 +42,32 @@ describe('MediasController (e2e)', () => {
       .expect(HttpStatus.BAD_REQUEST);
   });
 
-  it('POST /medias should return status 409 with a duplicated media', async () => {
+  it('POST /medias => should return status 409 with a duplicated media', async () => {
     const media = generateMedia();
-    await createMedia(media);
+    await createMedia(prisma, media);
     return request(app.getHttpServer())
       .post('/medias')
       .send(media)
       .expect(HttpStatus.CONFLICT);
   });
 
-  it('GET /medias should return an empty array if theres no media', () => {
+  it('GET /medias => should return an empty array if theres no media', () => {
     return request(app.getHttpServer())
       .get('/medias')
       .expect(HttpStatus.OK)
       .expect([]);
   });
 
-  it('GET /medias should return all medias', async () => {
-    const media = await createMedia(generateMedia());
-    const media2 = await createMedia(generateMedia());
+  it('GET /medias => should return all medias', async () => {
+    const media = await createMedia(prisma, generateMedia());
+    const media2 = await createMedia(prisma, generateMedia());
     const response = await request(app.getHttpServer()).get('/medias');
     expect(response.status).toEqual(HttpStatus.OK);
     expect(response.body).toEqual([media, media2]);
   });
 
-  it('GET /medias/:id should return media with that id', async () => {
-    const media = await createMedia(generateMedia());
+  it('GET /medias/:id => should return media with that id', async () => {
+    const media = await createMedia(prisma, generateMedia());
     const response = await request(app.getHttpServer()).get(
       `/medias/${media.id}`,
     );
@@ -74,13 +75,13 @@ describe('MediasController (e2e)', () => {
     expect(response.body).toEqual(media);
   });
 
-  it('GET /medias/:id should return status 404 with id that doesnt exist', async () => {
+  it('GET /medias/:id => should return status 404 with id that doesnt exist', async () => {
     const response = await request(app.getHttpServer()).get(`/medias/100`);
     expect(response.status).toEqual(HttpStatus.NOT_FOUND);
   });
 
-  it('PUT /medias/:id should update said media', async () => {
-    const media = await createMedia(generateMedia());
+  it('PUT /medias/:id => should update said media', async () => {
+    const media = await createMedia(prisma, generateMedia());
     const newMedia = generateMedia();
     const response = await request(app.getHttpServer())
       .put(`/medias/${media.id}`)
@@ -89,7 +90,7 @@ describe('MediasController (e2e)', () => {
     expect(response.body).toEqual({ id: media.id, ...newMedia });
   });
 
-  it('PUT /medias/:id should return status 404 with id that doesnt exist', async () => {
+  it('PUT /medias/:id => should return status 404 with id that doesnt exist', async () => {
     const media = generateMedia();
     const response = await request(app.getHttpServer())
       .put(`/medias/100`)
@@ -97,32 +98,32 @@ describe('MediasController (e2e)', () => {
     expect(response.status).toEqual(HttpStatus.NOT_FOUND);
   });
 
-  it('PUT /medias/:id should return status 409 when duplicating another media', async () => {
-    const media = await createMedia(generateMedia());
-    const newMedia = await createMedia(generateMedia());
+  it('PUT /medias/:id => should return status 409 when duplicating another media', async () => {
+    const media = await createMedia(prisma, generateMedia());
+    const newMedia = await createMedia(prisma, generateMedia());
     const response = await request(app.getHttpServer())
       .put(`/medias/${media.id}`)
       .send(newMedia);
     expect(response.status).toEqual(HttpStatus.CONFLICT);
   });
 
-  it('DELETE /medias/:id should delete said media', async () => {
-    const media = await createMedia(generateMedia());
+  it('DELETE /medias/:id => should delete said media', async () => {
+    const media = await createMedia(prisma, generateMedia());
     const response = await request(app.getHttpServer()).delete(
       `/medias/${media.id}`,
     );
     expect(response.status).toEqual(HttpStatus.OK);
   });
 
-  it('DELETE /medias/:id should return status 404 with id that doesnt exist', async () => {
+  it('DELETE /medias/:id => should return status 404 with id that doesnt exist', async () => {
     const response = await request(app.getHttpServer()).delete(`/medias/1`);
     expect(response.status).toEqual(HttpStatus.NOT_FOUND);
   });
 
-  it('DELETE /medias/:id should return status 403 when media is used in a publication', async () => {
-    const media = await createMedia(generateMedia());
-    const post = await createPost(generatePost());
-    await createPublication({
+  it('DELETE /medias/:id => should return status 403 when media is used in a publication', async () => {
+    const media = await createMedia(prisma, generateMedia());
+    const post = await createPost(prisma, generatePost());
+    await createPublication(prisma, {
       mediaId: media.id,
       postId: post.id,
       date: new Date(),

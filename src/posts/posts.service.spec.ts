@@ -39,7 +39,7 @@ describe('PostsService', () => {
     jest.clearAllMocks();
   });
 
-  it('create(post) should return created post', async () => {
+  it('create(post) => should return created post', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -56,7 +56,7 @@ describe('PostsService', () => {
     expect(result).toEqual(post);
   });
 
-  it('findAll() should return all posts', async () => {
+  it('findAll() => should return all posts', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -69,7 +69,7 @@ describe('PostsService', () => {
     expect(result).toEqual([post]);
   });
 
-  it('findOne(id) should return said post', async () => {
+  it('findOne(id) => should return said post', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -82,7 +82,7 @@ describe('PostsService', () => {
     expect(result).toEqual(post);
   });
 
-  it('findOne(id) should return Not Found when post doesnt exists', async () => {
+  it('findOne(id) => should return Not Found when post doesnt exists', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -95,7 +95,7 @@ describe('PostsService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('update(id,body) should return Not Found when post doesnt exists', async () => {
+  it('update(id,body) => should return Not Found when post doesnt exists', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -112,7 +112,7 @@ describe('PostsService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('update(id,body) should return updated post', async () => {
+  it('update(id,body) => should return updated post', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -130,7 +130,7 @@ describe('PostsService', () => {
     expect(result).toEqual(post);
   });
 
-  it('remove(id) should delete said post', async () => {
+  it('remove(id) => should delete said post', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -147,7 +147,7 @@ describe('PostsService', () => {
     expect(result).toEqual(undefined);
   });
 
-  it('remove(id) should return NotFoundException when post doesnt exist', async () => {
+  it('remove(id) => should return NotFoundException when post doesnt exist', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),
@@ -160,7 +160,7 @@ describe('PostsService', () => {
     expect(promise).rejects.toEqual(new NotFoundException());
   });
 
-  it('remove(id) should return ForbiddenException when publication exist', async () => {
+  it('remove(id) => should return ForbiddenException when publication exist', async () => {
     const post: Omit<Post, 'createdAt' | 'updatedAt'> = {
       id: 1,
       title: faker.animal.bird(),

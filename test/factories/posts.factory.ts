@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { db as prisma } from '../db.connect';
+import { PrismaService } from '../../src/database/prisma.service';
 
 type createPostParam = {
   title: string;
@@ -15,7 +15,7 @@ export function generatePost() {
   };
 }
 
-export function createPost(data: createPostParam) {
+export function createPost(prisma: PrismaService, data: createPostParam) {
   return prisma.post.create({
     data,
     select: { id: true, title: true, text: true, image: true },

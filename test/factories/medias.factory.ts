@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { db as prisma } from '../db.connect';
+import { PrismaService } from '../../src/database/prisma.service';
 
 type createMediaParam = {
   title: string;
@@ -13,7 +13,7 @@ export function generateMedia() {
   };
 }
 
-export function createMedia(data: createMediaParam) {
+export function createMedia(prisma: PrismaService, data: createMediaParam) {
   return prisma.media.create({
     data,
     select: { id: true, title: true, username: true },

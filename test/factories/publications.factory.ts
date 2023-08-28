@@ -1,4 +1,4 @@
-import { db as prisma } from '../db.connect';
+import { PrismaService } from '../../src/database/prisma.service';
 
 type createPublicationParam = {
   mediaId: number;
@@ -6,7 +6,10 @@ type createPublicationParam = {
   date: Date;
 };
 
-export function createPublication(data: createPublicationParam) {
+export function createPublication(
+  prisma: PrismaService,
+  data: createPublicationParam,
+) {
   return prisma.publication.create({
     data,
     select: { id: true, mediaId: true, postId: true, date: true },
